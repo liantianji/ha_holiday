@@ -1,5 +1,5 @@
 """
-功能：判断当前日期是否节假日.
+功能：判断当前日期是否节中国节假日.
 配置
 binary_sensor:
   - platform: ha_holiday
