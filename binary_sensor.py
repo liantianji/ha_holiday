@@ -9,7 +9,6 @@ import time
 import requests
 import json
 from datetime import datetime, timedelta
-from . import getPublicIp
 import voluptuous as vol
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
