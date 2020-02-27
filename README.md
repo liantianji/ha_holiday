@@ -3,7 +3,7 @@
 原代码https://github.com/shaonianzhentan/ha_cloud_music
 
 使用方法:
-将目录复制到custom_components中
+将ha_holiday目录复制到custom_components中
 修改configuration.yaml中加入
 
 binary_sensor:
