@@ -27,6 +27,30 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     }
 )
 
+def getNewPublicIp():
+        _publicIp=''
+        url = "http://httpbin.org/ip"
+        try:
+                response = requests.request("GET", url, timeout=5)
+        except Exception as err:
+                #self.logger.error('Error - http request error of getLocalPublicIp - {}'.format(err))
+                raise RuntimeError(err)
+                # return ''
+
+        if response.status_code != 200:
+                #self.logger.error('Error - http request error of getLocalPublicIp not 200')
+                raise RuntimeError('Error - http request error of getLocalPublicIp not 200')
+        # publicIp = response.json().get('ip_addr', '')
+        publicIp = response.json().get('origin', '')
+        publicIp = publicIp.split(',')
+        if not publicIp:
+                #self.logger.error('Error - new public ip acquiring failed')
+                raise RuntimeError('Error - new public ip acquiring failed')
+                publicIp = publicIp[0]
+                #self.logger.info('My public ip acquired - {}'.format(publicIp))
+                #self.wanip=publicIp[0]
+
+        return publicIp[0]  
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Workday sensor."""
@@ -53,7 +77,7 @@ class IsHolidaySensor(BinarySensorDevice):
     def __init__(self, name):
         """Initialize the Workday sensor."""
         self._name = name
-        self._wanip= getPublicIp.getNewPublicIp()
+        self._wanip= getNewPublicIp()
         self._state = False
         self._today = None
         # 忌
@@ -213,7 +237,7 @@ class IsHolidaySensor(BinarySensorDevice):
             self._holiday_name = None
             self._state = self.is_holiday(now)            
             self._today = self.today
-            self._wanip= getPublicIp.getNewPublicIp()
+            self._wanip= getNewPublicIp()
             self._lastUpdateTime = time.strftime("%Y-%m-%d %H:%M:%S") 
 
 # --------------字符串转JSON-----------------------
